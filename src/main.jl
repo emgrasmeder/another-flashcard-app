@@ -1,2 +1,4 @@
-include("./functions.jl")
+module Flashy
+include("functions.jl")
 initialize()
+end

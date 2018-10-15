@@ -20,9 +20,7 @@ function dumpwords()
   end
 end 
 
-function one()
-  return 1
-end 
+one() = return 1
 
 export one
 export initialize
