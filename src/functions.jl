@@ -1,4 +1,7 @@
 using CSV
+using DataFrames
+
+export initialize, one, cardpick
 
 
 function initialize()
@@ -8,8 +11,6 @@ function initialize()
   if !(chomp(readline()) in ["", "y", "Y"])
       exit()
   end
-
-
   println("Okay, let's do it")
 end
 
@@ -22,5 +23,6 @@ end
 
 one() = return 1
 
-export one
-export initialize
+function randrecord(df) 
+  return df[[rand(1:nrow(df))],:]
+end
