@@ -13,7 +13,7 @@ default = "<h1>Hello World</h1>"
 @app test = (
   Mux.defaults,
   page("/", respond(default)),
-  page("/cards", respond(deal())),
+  page("/cards", _ -> deal()),
   page("/about", respond("This is just Another Flashcard App")),
   Mux.notfound())
 
