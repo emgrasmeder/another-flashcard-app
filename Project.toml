@@ -1,0 +1,7 @@
+name = "another-flashcard-app"
+uuid = "df4b9c86-e118-11e8-11bc-450e5ffedf7a"
+authors = ["Emily A Grasmeder <egrasmed@thoughtworks.com>"]
+version = "0.1.0"
+
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"

@@ -1,3 +1,5 @@
+### This file is deprecated
+
 module Flashy
 
 using Logging
