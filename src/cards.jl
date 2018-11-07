@@ -24,7 +24,7 @@ function deal()
 end
 
 
-function load(filename = "./resources/1000-biblical-hebrew-words.csv")
+function load(filename = "/app/resources/1000-biblical-hebrew-words.csv")
     return CSV.read(filename)
 end
 

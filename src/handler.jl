@@ -1,6 +1,7 @@
 using Mux
 using Logging
 using Dates
+# using Sockets
 
 include("functions.jl")
 include("cards.jl")
@@ -17,7 +18,7 @@ default = "<h1>Hello World</h1>"
   page("/about", respond("This is just Another Flashcard App")),
   Mux.notfound())
 
-serve(test)
+serve(test, "0.0.0.0", 8000)
 Base.JLOptions().isinteractive == 0 && wait()
 
 
