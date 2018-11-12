@@ -1,0 +1,13 @@
+FROM openjdk:8-alpine
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+RUN apk add --no-cache --update wget ca-certificates bash && \
+ wget -q "https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein" \
+  -O /usr/local/bin/lein && \
+   chmod 0755 /usr/local/bin/lein && \
+    lein && \
+     apk del wget ca-certificates && \
+     rm -rf /tmp/*
+RUN lein deps
+EXPOSE 9000
+CMD lein figwheel
