@@ -8,6 +8,11 @@ function pow(req::HTTP.Request)
     json_responder(req, x^y)
 end
 
+function cards(req::HTTP.Request)
+    json_responder(req, "WORD")
+end
+
+
 # This function takes two numbers n and k from a JSON-encoded request
 # body and returns binomial(n, k)
 function bin(req::HTTP.Request)
@@ -23,6 +28,7 @@ end
 endpoints = [
     (pow, "GET", "/pow"),
     (bin, "POST", "/bin"),
+    (cards, "GET", "/cards"),
     (req -> req.response, "OPTIONS", "*")
 ]
 s = Joseki.server(endpoints)
