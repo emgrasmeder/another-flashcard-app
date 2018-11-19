@@ -23,8 +23,8 @@ function deal()
   return response(card)
 end
 
-
-function load(filename = "/app/resources/1000-biblical-hebrew-words.csv")
+filepath = Base.ENV["HEBREW_WORD_LIST"] 
+function load(filename = "$(filepath)/1000-biblical-hebrew-words.csv")
     return CSV.read(filename)
 end
 

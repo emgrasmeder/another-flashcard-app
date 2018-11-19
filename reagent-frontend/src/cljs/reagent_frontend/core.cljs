@@ -10,8 +10,6 @@
 
 ;; -------------------------
 ;; Routes
-
-
 (def router
   (reitit/router
     [["/" :index]
@@ -24,9 +22,10 @@
     (:path (reitit/match-by-name router route))))
 
 (path-for :about)
+
+
 ;; -------------------------
 ;; Page components
-
 (defn home-page []
   (fn []
     [:span.main
@@ -35,15 +34,11 @@
       [:li [:a {:href (path-for :study)} "Study!"]]]]))
 
 
-
 (defn study-page []
   (fn []
     [:span.main
      [:h1 "Let's format this and learn some Hebrew"]
-     [:ul (go (let [query-options {:with-credentials? false}
-                    response (<! (http/get "http://another-flashcard-app:8000/cards" query-options))]
-                (prn (:status response))
-                (prn (map :login (:body response)))))]]))
+     [:ul (go (let [query-options {:with-credentials? false} response (<! (http/get "http://localhost:8000/study" query-options))] (prn "response is" response)))]]))
 
 
 (defn about-page []
