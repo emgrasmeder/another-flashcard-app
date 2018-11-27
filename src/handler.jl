@@ -1,5 +1,7 @@
 using Joseki, JSON, HTTP
 
+include("cards.jl")
+
 function pow(req::HTTP.Request)
     j = HTTP.queryparams(HTTP.URI(req.target))
     has_all_required_keys(["x", "y"], j) || return error_responder(req, "You need to specify values for x and y!")
@@ -8,8 +10,9 @@ function pow(req::HTTP.Request)
     json_responder(req, x^y)
 end
 
-function cards(req::HTTP.Request)
-    json_responder(req, "WORD")
+function card(req::HTTP.Request)
+  thing = get_word()
+  json_responder(req, thing)
 end
 
 
@@ -28,7 +31,7 @@ end
 endpoints = [
     (pow, "GET", "/pow"),
     (bin, "POST", "/bin"),
-    (cards, "GET", "/cards"),
+    (card, "GET", "/card"),
     (req -> req.response, "OPTIONS", "*")
 ]
 s = Joseki.server(endpoints)
