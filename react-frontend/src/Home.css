@@ -1,0 +1,25 @@
+.Main {
+  background-color: #21366d;
+  color: #ecf0f1;
+  position: fixed;
+  text-align: center;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.Header {
+  min-height: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Feedback-Buttons{
+
+}
