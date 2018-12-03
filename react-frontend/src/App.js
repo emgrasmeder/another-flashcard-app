@@ -8,9 +8,11 @@ class App extends Component {
     super(props);
     this.getCard = this.getCard.bind(this)
     this.updateDisplayedCard = this.updateDisplayedCard.bind(this)
+    this.toggleDisplayedLanguage = this.toggleDisplayedLanguage.bind(this)
     this.state = {
       english: "",
-      hebrew: ""
+      hebrew: "",
+      displayedLanguage: "hebrew"
     };
   }
 
@@ -19,10 +21,16 @@ class App extends Component {
   }
 
   updateDisplayedCard() {
+    console.log(this.state);
     this.getCard().then(card => this.setState({
       english: card["result"][0],
       hebrew: card["result"][1],
     }))
+  }
+
+  toggleDisplayedLanguage(){
+    const newLanguage = this.state.displayedLanguage === "hebrew" ? "english" : "hebrew";
+    this.setState({displayedLanguage: newLanguage})
   }
 
   getCard = () => fetch('http://localhost:8000/card', {
@@ -36,11 +44,13 @@ class App extends Component {
     return (
       <div className="Main" >
         <header className="Header" >
-          {`Hebrew Word: ${this.state.hebrew}`}
-          {`English Word: ${this.state.english}`}
+          {this.state.displayedLanguage === "english" ? this.state.english : this.state.hebrew}
         </header >
         <Button text="Reveal" />
-        <Button text="English <-> Hebrew" />
+        <Button
+          text="English <-> Hebrew"
+          onClick={this.toggleDisplayedLanguage}
+        />
         <div className="Feedback-Buttons" >
           <Button
             text="I knew it"
