@@ -2,18 +2,12 @@ import React, { Component } from 'react';
 import './Button.css';
 
 class Button extends Component {
-  handleClick = (response) => fetch('http://localhost:8000/feedback', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: { response: response }
-  }).then(response => response.json());
-
   render() {
     return (
-      <button className={"Button"}
-        onClick={this.handleClick}>
+      <button
+        className={"Button"}
+        onClick={this.props.onClick}
+      >
         {this.props.text}
       </button >
     );
