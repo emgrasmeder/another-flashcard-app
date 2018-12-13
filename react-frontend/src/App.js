@@ -58,7 +58,6 @@ class App extends Component {
     return (
       <div className="Main" >
         <div >
-
           <header className="Header" >
             {this.state.displayedWord}
           </header >
