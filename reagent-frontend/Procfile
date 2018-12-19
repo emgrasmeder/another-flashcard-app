@@ -1,1 +1,0 @@
-web: java $JVM_OPTS -cp target/reagent-frontend.jar clojure.main -m reagent-frontend.server
