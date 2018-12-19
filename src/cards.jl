@@ -1,8 +1,16 @@
-using CSV, DataFrames
+using CSV, DataFrames, Logging
+
+io = open("word-feedback.txt", "w+")
+global_logger(SimpleLogger(io))
+
 
 function get_word()
   index = rand(1:nrow(cards))
   return [cards[1][index], cards[2][index]]
+end
+
+function process_feedback(feedback)
+
 end
 
 filepath = Base.ENV["HEBREW_WORD_LIST"]

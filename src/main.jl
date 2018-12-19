@@ -2,12 +2,9 @@
 
 module Flashy
 
-using Logging
 using Dates
 
 io = open("log.txt", "w+")
-global_logger(SimpleLogger(io))
-
 
 include("functions.jl")
 

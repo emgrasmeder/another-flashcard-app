@@ -7,6 +7,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.getCard = this.getCard.bind(this)
+    this.giveFeedbackCorrect = this.giveFeedbackCorrect.bind(this)
+    this.giveFeedbackIncorrect = this.giveFeedbackIncorrect.bind(this)
     this.updateDisplayedCard = this.updateDisplayedCard.bind(this)
     this.toggleDisplayedLanguage = this.toggleDisplayedLanguage.bind(this)
     this.revealAnswer = this.revealAnswer.bind(this)
@@ -30,6 +32,31 @@ class App extends Component {
       this.displayCard()
     })
   }
+
+  giveFeedbackCorrect = () => fetch('http://localhost:8000/feedback', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      hebrew: this.state.hebrew,
+      english: this.state.english,
+      "correct?": true
+    })
+  }).then(_ => this.updateDisplayedCard());
+
+  giveFeedbackIncorrect = () => fetch('http://localhost:8000/feedback', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      hebrew: this.state.hebrew,
+      english: this.state.english,
+      "correct?": false
+    })
+  }).then(_ => this.updateDisplayedCard());
+
 
   toggleDisplayedLanguage() {
     const newLanguage = this.state.displayedLanguage === "hebrew" ? "english" : "hebrew";
@@ -61,22 +88,22 @@ class App extends Component {
           <header className="Header" >
             {this.state.displayedWord}
           </header >
-          </div >
+        </div >
+        <Button
+          text="Reveal"
+          onClick={this.revealAnswer} />
+        <Button
+          text="English <-> Hebrew"
+          onClick={this.toggleDisplayedLanguage}
+        />
+        <div className="Feedback-Buttons" >
           <Button
-            text="Reveal"
-            onClick={this.revealAnswer} />
+            text="I knew it"
+            onClick={this.giveFeedbackCorrect} />
           <Button
-            text="English <-> Hebrew"
-            onClick={this.toggleDisplayedLanguage}
-          />
-          <div className="Feedback-Buttons" >
-            <Button
-              text="I knew it"
-              onClick={this.updateDisplayedCard} />
-            <Button
-              text="Didn't know it"
-              onClick={this.updateDisplayedCard} />
-          </div >
+            text="Didn't know it"
+            onClick={this.giveFeedbackIncorrect} />
+        </div >
         <div className="Subheader" >
           {`Display language: ${this.state.displayedLanguage}`}
         </div >
