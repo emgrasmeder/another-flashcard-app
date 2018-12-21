@@ -3,10 +3,18 @@ using CSV, DataFrames, Logging
 io = open("word-feedback.txt", "w+")
 global_logger(SimpleLogger(io))
 
+function JSONstringify(d::Dict)
+    return String(JSON.json(d))
+end
 
 function get_word()
-  index = rand(1:nrow(cards))
-  return [cards[1][index], cards[2][index]]
+  randn = rand(1:nrow(cards))
+  body = Dict(
+    "id" => cards[1][randn],
+    "english" => cards[2][randn],
+    "hebrew" => cards[3][randn]
+  )
+  return JSONstringify(body)
 end
 
 function process_feedback(feedback)
@@ -19,3 +27,7 @@ function load(filename = "$(filepath)/1000-biblical-hebrew-words.csv")
 end
 
 cards = load()
+
+function addUUIDs(df)
+    df[:id] = map((x) -> uuid4(), 1:nrow(df))
+end

@@ -7,14 +7,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.getCard = this.getCard.bind(this)
-    this.giveFeedbackCorrect = this.giveFeedbackCorrect.bind(this)
-    this.giveFeedbackIncorrect = this.giveFeedbackIncorrect.bind(this)
+    this.giveFeedback = this.giveFeedback.bind(this)
     this.updateDisplayedCard = this.updateDisplayedCard.bind(this)
     this.toggleDisplayedLanguage = this.toggleDisplayedLanguage.bind(this)
     this.revealAnswer = this.revealAnswer.bind(this)
     this.state = {
       english: "",
       hebrew: "",
+      wordId: "",
       displayedLanguage: "hebrew",
       displayedWord: ""
     };
@@ -25,37 +25,29 @@ class App extends Component {
   }
 
   updateDisplayedCard() {
-    this.getCard().then(card => this.setState({
-      english: card["result"][0],
-      hebrew: card["result"][1],
-    })).then(() => {
+    this.getCard().then(card => {
+      card = JSON.parse(card.result);
+      this.setState({
+        english: card.english,
+        hebrew: card.hebrew,
+        wordId: card.id
+      })
+    }).then(() => {
       this.displayCard()
     })
   }
 
-  giveFeedbackCorrect = () => fetch('http://localhost:8000/feedback', {
+  giveFeedback = (isKnown) => fetch('http://localhost:8000/feedback', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      hebrew: this.state.hebrew,
-      english: this.state.english,
-      "correct?": true
+      timestamp: Math.floor(new Date() / 1000),
+      wordId: this.state.wordId,
+      isKnown: isKnown
     })
-  }).then(_ => this.updateDisplayedCard());
-
-  giveFeedbackIncorrect = () => fetch('http://localhost:8000/feedback', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      hebrew: this.state.hebrew,
-      english: this.state.english,
-      "correct?": false
-    })
-  }).then(_ => this.updateDisplayedCard());
+  }).then(this.updateDisplayedCard);
 
 
   toggleDisplayedLanguage() {
@@ -99,10 +91,10 @@ class App extends Component {
         <div className="Feedback-Buttons" >
           <Button
             text="I knew it"
-            onClick={this.giveFeedbackCorrect} />
+            onClick={() => this.giveFeedback(true)} />
           <Button
             text="Didn't know it"
-            onClick={this.giveFeedbackIncorrect} />
+            onClick={() => this.giveFeedback(false)} />
         </div >
         <div className="Subheader" >
           {`Display language: ${this.state.displayedLanguage}`}

@@ -18,6 +18,7 @@ function feedback(req::HTTP.Request)
         println("Logging an error! ", err)
         return error_responder(req, "Expected JSON request body")
     end
+    json_responder(req, "")
 end
 
 
