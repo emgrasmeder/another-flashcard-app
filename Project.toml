@@ -1,9 +1,12 @@
 name = "another-flashcard-app"
 uuid = "df4b9c86-e118-11e8-11bc-450e5ffedf7a"
-authors = ["Emily A Grasmeder <egrasmed@thoughtworks.com>"]
+authors = ["Em Grasmeder <em@gras.org>"]
 version = "0.1.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+Joseki = "b588beb9-536a-5a7d-a241-c127386fde06"
 Mux = "a975b10e-0019-58db-a62f-e48ff68538c9"

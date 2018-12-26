@@ -49,6 +49,7 @@ start_frontend() {
   # cd reagent-frontend
   # lein figwheel
   cd react-frontend
+  yarn
   yarn start
 }
 
