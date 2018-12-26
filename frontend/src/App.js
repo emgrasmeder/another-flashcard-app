@@ -37,18 +37,19 @@ class App extends Component {
     })
   }
 
-  giveFeedback = (isKnown) => fetch('http://localhost:8000/feedback', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      timestamp: Math.floor(new Date() / 1000),
-      wordId: this.state.wordId,
-      isKnown: isKnown
-    })
-  }).then(this.updateDisplayedCard);
-
+  giveFeedback(isKnown) {
+    return fetch('http://localhost:8000/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        timestamp: Math.floor(new Date() / 1000),
+        wordId: this.state.wordId,
+        isKnown: isKnown
+      })
+    }).then(this.updateDisplayedCard);
+  }
 
   toggleDisplayedLanguage() {
     const newLanguage = this.state.displayedLanguage === "hebrew" ? "english" : "hebrew";

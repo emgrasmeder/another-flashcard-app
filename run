@@ -48,7 +48,7 @@ start_frontend() {
   # echo "Starting frontend for development"
   # cd reagent-frontend
   # lein figwheel
-  cd react-frontend
+  cd frontend
   yarn
   yarn start
 }
