@@ -21,7 +21,7 @@ function process_feedback(feedback)
 
 end
 
-filepath = Base.ENV["HEBREW_WORD_LIST"]
+filepath = get(ENV, "HEBREW_WORD_LIST", "./resources/")
 function load(filename = "$(filepath)/1000-biblical-hebrew-words.csv")
     return DataFrame(CSV.read(filename))
 end

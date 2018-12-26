@@ -79,8 +79,8 @@ class App extends Component {
         <div >
           <header className="Header" >
             {this.state.displayedWord}
-          </header >
-        </div >
+          </header>
+        </div>
         <Button
           text="Reveal"
           onClick={this.revealAnswer} />
@@ -98,8 +98,8 @@ class App extends Component {
         </div >
         <div className="Subheader" >
           {`Display language: ${this.state.displayedLanguage}`}
-        </div >
-      </div >
+        </div>
+      </div>
     );
   }
 }
