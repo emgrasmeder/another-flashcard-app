@@ -2,7 +2,9 @@ module.exports = {
     "env": {
         "browser": true,
         "es6": true,
-	"jasmine": true
+	"jasmine": true,
+        "node": true,
+        "jest": true
     },
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "parserOptions": {
@@ -18,7 +20,7 @@ module.exports = {
     "rules": {
         "indent": [
             "error",
-            4
+            2
         ],
         "linebreak-style": [
             "error",

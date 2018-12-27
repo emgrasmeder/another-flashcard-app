@@ -1,8 +1,5 @@
 using CSV, DataFrames, Logging
 
-io = open("word-feedback.txt", "w+")
-global_logger(SimpleLogger(io))
-
 function JSONstringify(d::Dict)
     return String(JSON.json(d))
 end
