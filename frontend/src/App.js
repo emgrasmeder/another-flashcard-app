@@ -9,14 +9,14 @@ class App extends Component {
     this.giveFeedback = this.giveFeedback.bind(this);
     this.updateDisplayedCard = this.updateDisplayedCard.bind(this);
     this.toggleDisplayedLanguage = this.toggleDisplayedLanguage.bind(this);
-    this.revealAnswer = this.revealAnswer.bind(this);
+    this.flipCardOver = this.flipCardOver.bind(this);
     this.state = {
       english: '',
       hebrew: '',
       wordId: '',
       displayedLanguage: 'hebrew',
       hiddenLanguage: 'english',
-      isAnswerRevealed: false,
+      isFlippedOver: false,
       displayedWord: ''
     };
   }
@@ -58,7 +58,6 @@ class App extends Component {
   }
 
   displayCard() {
-    console.log("this is happening?")
     const word =
       this.state.displayedLanguage === 'english'
         ? this.state.english
@@ -66,12 +65,16 @@ class App extends Component {
     this.setState({ displayedWord: word });
   }
 
-  revealAnswer() {
-    if (!this.state.isAnswerRevealed) {
-      this.setState({ displayedWord: this.state['hiddenLanguage'] });
+  flipCardOver() {
+    if (this.state.isFlippedOver) {
+      this.setState({ 
+        isFlippedOver: false,
+        displayedWord: this.state[this.state.displayedLanguage] });
     } else {
-      this.setState({ displayedWord: this.state['displayedLanguage'] });
-    }
+      this.setState({ 
+        isFlippedOver: true, 
+        displayedWord: this.state[this.state.hiddenLanguage] });
+    } 
   }
 
   getCard() {
@@ -89,7 +92,7 @@ class App extends Component {
         <div>
           <header className="Header">{this.state.displayedWord}</header>
         </div>
-        <Button text="Reveal" onClick={this.revealAnswer} />
+        <Button text="Reveal" onClick={this.flipCardOver} />
         <Button
           text="English <-> Hebrew"
           onClick={this.toggleDisplayedLanguage}
