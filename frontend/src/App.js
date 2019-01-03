@@ -62,7 +62,7 @@ class App extends Component {
       this.state.displayedLanguage === 'english'
         ? this.state.english
         : this.state.hebrew;
-    this.setState({ displayedWord: word });
+    this.setState({ isFlippedOver: false, displayedWord: word });
   }
 
   flipCardOver() {
