@@ -40,7 +40,7 @@ build_and_run_frontend(){
 
 start_backend() {
   echo "Starting backend for development"
-  julia src/handler.jl
+  julia backend/handler.jl
 }
 
 start_frontend() {
