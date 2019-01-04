@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
 import Button from './Button';
+import './Card.css';
 
 class App extends Component {
   constructor(props) {
@@ -67,14 +68,16 @@ class App extends Component {
 
   flipCardOver() {
     if (this.state.isFlippedOver) {
-      this.setState({ 
+      this.setState({
         isFlippedOver: false,
-        displayedWord: this.state[this.state.displayedLanguage] });
+        displayedWord: this.state[this.state.displayedLanguage]
+      });
     } else {
-      this.setState({ 
-        isFlippedOver: true, 
-        displayedWord: this.state[this.state.hiddenLanguage] });
-    } 
+      this.setState({
+        isFlippedOver: true,
+        displayedWord: this.state[this.state.hiddenLanguage]
+      });
+    }
   }
 
   getCard() {
@@ -88,26 +91,28 @@ class App extends Component {
 
   render() {
     return (
-      <div className="Main">
-        <div>
-          <header className="Header">{this.state.displayedWord}</header>
-        </div>
+      <div className="Main" >
+        <div className={"CardHeader"} >
+          <div className={"Card"} >
+            <header className="Header" >{this.state.displayedWord}</header >
+          </div >
+        </div >
         <Button text="Reveal" onClick={this.flipCardOver} />
         <Button
           text="English <-> Hebrew"
           onClick={this.toggleDisplayedLanguage}
         />
-        <div className="Feedback-Buttons">
+        <div className="Feedback-Buttons" >
           <Button text="I knew it" onClick={() => this.giveFeedback(true)} />
           <Button
             text="Didn't know it"
             onClick={() => this.giveFeedback(false)}
           />
-        </div>
-        <div className="Subheader">
+        </div >
+        <div className="Subheader" >
           {`Display language: ${this.state.displayedLanguage}`}
-        </div>
-      </div>
+        </div >
+      </div >
     );
   }
 }

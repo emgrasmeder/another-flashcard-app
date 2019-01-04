@@ -1,0 +1,23 @@
+.Card {
+    height: 400px;
+    width: 300px;
+    font-size: 40px;
+
+    background-color: #e7903c;
+
+    -moz-box-shadow: 0 0 5px 5px #666;
+    -webkit-box-shadow: 0 0 5px 5px #666;
+    box-shadow: 0 0 5px 5px #666;
+
+    border-radius: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.CardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
