@@ -1,28 +1,32 @@
 #!/usr/bin/env bash
 
+build_docker_frontend() {
+  echo "Building frontend docker image"
+  docker build --tag another-flashcard-frontend -f ./Dockerfile.frontend .
+}
+
+
 build_docker_backend() {
   echo "Building backend docker image"
-  docker build --tag another-flashcard-app -f Dockerfile .
+  docker build --tag another-flashcard-backend -f Dockerfile.backend .
+}
+
+
+build_docker_database() {
+  echo "Building database docker image"
+  docker build --tag another-flashcard-database -f Dockerfile.neo4j .
 }
 
 
 run_docker_backend(){
   echo "Running backend docker image"
-  docker run --rm -it -p 8000:8000 another-flashcard-app
+  docker run --rm -it -p 8000:8000 another-flashcard-backend
 }
 
 
 build_and_run_backend(){
   build_docker_backend
   run_docker_backend
-}
-
-
-build_docker_frontend() {
-  echo "Building frontend docker image"
-  cd reagent-frontend
-  docker build --tag another-flashcard-frontend -f ../Dockerfile.frontend .
-  cd -
 }
 
 
@@ -38,38 +42,50 @@ build_and_run_frontend(){
 }
 
 
-start_backend() {
-  echo "Starting backend for development"
-  julia backend/handler.jl
-}
-
 start_frontend() {
-  # using https://github.com/reagent-project/reagent-template
-  # echo "Starting frontend for development"
-  # cd reagent-frontend
-  # lein figwheel
   cd frontend
   yarn
   yarn start
 }
 
-start_frontend_prod(){
-  echo "Starting frontend for production"
-  clj -m cljs.main --optimizations advanced -c another-flashcard-app.core
-  clj -m cljs.main --serve
+
+start_backend() {
+  echo "Starting backend for development"
+  julia backend/handler.jl
+}
+
+start_database() {
+  echo "Starting database for development"
+  if [ ! -d "$DIRECTORY" ]; then
+    wget dist.neo4j.org/neo4j-community-3.3.5-unix.tar.gz
+    tar -xzf neo4j-community-3.3.5-unix.tar.gz
+    sed -i -e 's/#dbms.security.auth_enabled=false/dbms.security.auth_enabled=false/g' neo4j-community-3.3.5/conf/neo4j.conf
+    sed -i -e 's/dbms.security.auth_enabled=true/dbms.security.auth_enabled=false/g' neo4j-community-3.3.5/conf/neo4j.conf
+  fi
+  neo4j-community-3.3.5/bin/neo4j start
+}
+
+
+start_everything(){
+  build_docker_frontend
+  build_docker_backend
+  build_docker_database
+  docker-compose up
 }
 
 
 usage() {
-    echo "Usage: $0 frontend | frontend_container | backend | build | docker | frontend_container"
+    echo "Usage: $0 start | frontend | frontend_container | backend | build | docker | frontend_container"
     exit 1
 }
 
 CMD=${1:-}
 shift || true
 case ${CMD} in
+  start) start_everything ;; 
   frontend) start_frontend ;;
   backend) start_backend ;;
+  database) start_database ;;
   backend_container) build_and_run_backend ;;
   frontend_container) build_and_run_frontend ;;
   build_backend) build_docker_backend ;;
