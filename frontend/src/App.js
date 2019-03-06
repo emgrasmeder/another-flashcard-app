@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
 import Button from './Button';
+import Search from './Search';
 import './Card.css';
 
 class App extends Component {
@@ -92,8 +93,8 @@ class App extends Component {
   render() {
     return (
       <div className="Main" >
-        <div className={"CardHeader"} >
-          <div className={"Card"} >
+        <div className={'CardHeader'} >
+          <div className={'Card'} >
             <header className="Header" >{this.state.displayedWord}</header >
           </div >
         </div >
@@ -112,6 +113,9 @@ class App extends Component {
         <div className="Subheader" >
           {`Display language: ${this.state.displayedLanguage}`}
         </div >
+        <div>
+          <Search/>
+        </div>
       </div >
     );
   }
