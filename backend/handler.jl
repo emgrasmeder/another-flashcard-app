@@ -21,7 +21,16 @@ function feedback(req::HTTP.Request)
     json_responder(req, "")
 end
 
-
+function search(req::HTTP.Request)
+    try
+      query = HTTP.queryparams(HTTP.URI(req.target))["q"]
+        println("Got response ", query)
+    catch err
+        println("Logging an error! ", err)
+        return error_responder(req, "Expected JSON request body")
+    end
+    json_responder(req, "{\"hello\":\"world\"}")
+end
 
 function response(req::HTTP.Request)
     body = try
@@ -37,6 +46,7 @@ end
 endpoints = [
     (card, "GET", "/card"),
     (feedback, "POST", "/feedback"),
+    (search, "GET", "/search"),
     (req -> req.response, "OPTIONS", "*")
 ]
 s = Joseki.server(endpoints)
