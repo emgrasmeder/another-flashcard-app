@@ -28,15 +28,17 @@ class App extends Component {
   }
 
   updateDisplayedCard() {
-    this.getCard()
-      .then(card => {
-        card = JSON.parse(card.result);
-        this.setState({
+    this.getCard().then(card => {
+      card = JSON.parse(card.result);
+      this.setState(
+        {
           english: card.english,
           hebrew: card.hebrew,
           wordId: card.id
-        }, this.displayCard);
-      });
+        },
+        this.displayCard
+      );
+    });
   }
 
   giveFeedback(isKnown) {
@@ -90,33 +92,47 @@ class App extends Component {
     }).then(response => response.json());
   }
 
+  showSearchResults() {
+    //eslint-disable-next-line
+    console.log("search results!");
+  }
+
+  search(query) {
+    return fetch(`http://localhost:8000/search?q=${query}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(this.showSearchResults);
+  }
+
   render() {
     return (
-      <div className="Main" >
-        <div className={'CardHeader'} >
-          <div className={'Card'} >
-            <header className="Header" >{this.state.displayedWord}</header >
-          </div >
-        </div >
+      <div className="Main">
+        <div className={'CardHeader'}>
+          <div className={'Card'}>
+            <header className="Header">{this.state.displayedWord}</header>
+          </div>
+        </div>
         <Button text="Reveal" onClick={this.flipCardOver} />
         <Button
           text="English <-> Hebrew"
           onClick={this.toggleDisplayedLanguage}
         />
-        <div className="Feedback-Buttons" >
+        <div className="Feedback-Buttons">
           <Button text="I knew it" onClick={() => this.giveFeedback(true)} />
           <Button
             text="Didn't know it"
             onClick={() => this.giveFeedback(false)}
           />
-        </div >
-        <div className="Subheader" >
-          {`Display language: ${this.state.displayedLanguage}`}
-        </div >
-        <div>
-          <Search/>
         </div>
-      </div >
+        <div className="Subheader">
+          {`Display language: ${this.state.displayedLanguage}`}
+        </div>
+        <div>
+          <Search onClick={this.search} />
+        </div>
+      </div>
     );
   }
 }
