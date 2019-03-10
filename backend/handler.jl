@@ -24,12 +24,12 @@ end
 function search(req::HTTP.Request)
     try
       query = HTTP.queryparams(HTTP.URI(req.target))["q"]
-        println("Got response ", query)
+      println("Searching cards for term:", query)
+      json_responder(req,  JSONstringify(search(query)))
     catch err
         println("Logging an error! ", err)
         return error_responder(req, "Expected JSON request body")
     end
-    json_responder(req, "{\"hello\":\"world\"}")
 end
 
 function response(req::HTTP.Request)

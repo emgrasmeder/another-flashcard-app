@@ -2,3 +2,4 @@
 *.iml
 frontend/out/
 log.json
+node_modules/

@@ -103,7 +103,11 @@ class App extends Component {
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json());
+    })
+      .then(response => response.json())
+      .then(results => {
+        results = JSON.parse(results.result);
+      });
   }
 
   render() {
