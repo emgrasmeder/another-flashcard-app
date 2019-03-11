@@ -10,21 +10,29 @@ class App extends Component {
     this.getCard = this.getCard.bind(this);
     this.giveFeedback = this.giveFeedback.bind(this);
     this.updateDisplayedCard = this.updateDisplayedCard.bind(this);
-    this.toggleDisplayedLanguage = this.toggleDisplayedLanguage.bind(this);
-    this.flipCardOver = this.flipCardOver.bind(this);
+    this.toggleDefaultDisplayedLanguage = this.toggleDefaultDisplayedLanguage.bind(
+      this
+    );
+    this.nextLanguage = this.nextLanguage.bind(this);
+    this.flipCard = this.flipCard.bind(this);
     this.state = {
       english: '',
       hebrew: '',
       wordId: '',
       displayedLanguage: 'hebrew',
       hiddenLanguage: 'english',
-      isFlippedOver: false,
-      displayedWord: ''
+      isRevealed: false,
+      displayedWord: '',
+      defaultDisplayedLanguage: 'hebrew'
     };
   }
 
   componentDidMount() {
     this.updateDisplayedCard();
+  }
+
+  nextLanguage(language) {
+    return language === 'english' ? 'hebrew' : 'english';
   }
 
   updateDisplayedCard() {
@@ -36,7 +44,7 @@ class App extends Component {
           hebrew: card.hebrew,
           wordId: card.id
         },
-        this.displayCard
+        this.displayCardFaceUp
       );
     });
   }
@@ -50,37 +58,50 @@ class App extends Component {
       body: JSON.stringify({
         timestamp: Math.floor(new Date() / 1000),
         wordId: this.state.wordId,
-        isKnown: isKnown
+        isKnown: isKnown,
+        displayedLanguage: this.state.displayedLanguage
       })
     }).then(this.updateDisplayedCard);
   }
 
-  toggleDisplayedLanguage() {
-    const newLanguage =
-      this.state.displayedLanguage === 'hebrew' ? 'english' : 'hebrew';
-    this.setState({ displayedLanguage: newLanguage });
+  toggleDefaultDisplayedLanguage() {
+    this.setState(
+      {
+        defaultDisplayedLanguage: this.nextLanguage(
+          this.defaultDisplayedLanguage
+        ),
+        displayedLanguage: this.nextLanguage(this.state.displayedLanguage),
+        hiddenLanguage: this.nextLanguage(this.state.hiddenLanguage)
+      },
+      this.displayCardFaceUp
+    );
   }
 
-  displayCard() {
-    const word =
-      this.state.displayedLanguage === 'english'
-        ? this.state.english
-        : this.state.hebrew;
-    this.setState({ isFlippedOver: false, displayedWord: word });
+  displayCardFaceUp() {
+    this.setState({
+      isRevealed: false,
+      displayedWord: this.state[this.state.defaultDisplayedLanguage],
+      displayedLanguage: this.state.defaultDisplayedLanguage,
+      hiddenLanguage: this.nextLanguage(this.state.defaultDisplayedLanguage)
+    });
   }
 
-  flipCardOver() {
-    if (this.state.isFlippedOver) {
-      this.setState({
-        isFlippedOver: false,
-        displayedWord: this.state[this.state.displayedLanguage]
-      });
-    } else {
-      this.setState({
-        isFlippedOver: true,
-        displayedWord: this.state[this.state.hiddenLanguage]
-      });
-    }
+  flipCard() {
+    const nextWord = this.state[
+      this.nextLanguage(this.state.displayedLanguage)
+    ];
+    const nextDisplayedLanguage = this.nextLanguage(
+      this.state.displayedLanguage
+    );
+    const nextHiddenLanguage = this.nextLanguage(this.state.hiddenLanguage);
+    const nextRevealedState = !this.state.isRevealed;
+
+    this.setState({
+      isRevealed: nextRevealedState,
+      displayedWord: nextWord,
+      displayedLanguage: nextDisplayedLanguage,
+      hiddenLanguage: nextHiddenLanguage
+    });
   }
 
   getCard() {
@@ -92,11 +113,6 @@ class App extends Component {
     }).then(response => response.json());
   }
 
-  showSearchResults() {
-    //eslint-disable-next-line
-    console.log("search results!");
-  }
-
   search(query) {
     return fetch(`http://localhost:8000/search?q=${query}`, {
       method: 'GET',
@@ -106,7 +122,7 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(results => {
-        results = JSON.parse(results.result);
+        JSON.parse(results.result);
       });
   }
 
@@ -118,10 +134,10 @@ class App extends Component {
             <header className="Header">{this.state.displayedWord}</header>
           </div>
         </div>
-        <Button text="Reveal" onClick={this.flipCardOver} />
+        <Button text="Reveal" onClick={this.flipCard} />
         <Button
           text="English <-> Hebrew"
-          onClick={this.toggleDisplayedLanguage}
+          onClick={this.toggleDefaultDisplayedLanguage}
         />
         <div className="Feedback-Buttons">
           <Button text="I knew it" onClick={() => this.giveFeedback(true)} />

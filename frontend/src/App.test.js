@@ -36,32 +36,75 @@ describe('App', () => {
     expect(testInstance.instance.state.wordId).toEqual('123');
   });
 
-  it('should toggle language of revealed word on flipCardOver()', () => {
+  it('should toggle language of revealed word on flipCard()', () => {
     const root = TestRenderer.create(<App />).root;
     const instance = root.instance;
     instance.setState({
-      displayedLanguage: 'hebrew',
       english: 'an english word',
       hebrew: 'a hebrew word',
-      isFlippedOver: false
+      wordId: '',
+      displayedLanguage: 'hebrew',
+      hiddenLanguage: 'english',
+      isRevealed: false,
+      displayedWord: '',
+      defaultDisplayedLanguage: 'hebrew'
     });
 
-    root.instance.displayCard();
+    root.instance.displayCardFaceUp();
 
     // Original state
+    expect(instance.state.isRevealed).not.toBeTruthy();
     expect(instance.state.displayedWord).toEqual('a hebrew word');
-    expect(instance.state.isFlippedOver).toBe(false);
-
-    root.findByProps({ text: 'Reveal' }).props.onClick();
 
     // Flipped over to reveal English word
-    expect(instance.state.isFlippedOver).toBeTruthy();
-    expect(instance.state.displayedWord).toEqual('an english word');
-
     root.findByProps({ text: 'Reveal' }).props.onClick();
 
+    expect(instance.state.isRevealed).toBeTruthy();
+    expect(instance.state.displayedWord).toEqual('an english word');
+
     // Flipped back over to display Hebrew word
-    expect(instance.state.isFlippedOver).toBe(false);
+    root.findByProps({ text: 'Reveal' }).props.onClick();
+
+    expect(instance.state.isRevealed).not.toBeTruthy();
     expect(instance.state.displayedWord).toEqual('a hebrew word');
+  });
+
+  it('should toggle default language of revealed word on toggleDisplayedLanguage', () => {
+    const root = TestRenderer.create(<App />).root;
+    const instance = root.instance;
+    instance.setState({
+      english: 'an english word',
+      hebrew: 'a hebrew word',
+      wordId: '',
+      displayedLanguage: 'hebrew',
+      hiddenLanguage: 'english',
+      isRevealed: false,
+      displayedWord: '',
+      defaultDisplayedLanguage: 'hebrew'
+    });
+
+    root.instance.displayCardFaceUp();
+
+    // Original state
+    expect(instance.state.isRevealed).not.toBeTruthy();
+    expect(instance.state.displayedWord).toEqual('a hebrew word');
+
+    root.findByProps({ text: 'English <-> Hebrew' }).props.onClick();
+
+    // Flip card over but don't mark it as "revealed" bc it's now the default
+    expect(instance.state.isRevealed).not.toBeTruthy();
+    expect(instance.state.displayedWord).toEqual('an english word');
+
+    // Flipped back over to display Hebrew word, now it's "revealed"
+    root.findByProps({ text: 'Reveal' }).props.onClick();
+
+    expect(instance.state.isRevealed).toBeTruthy();
+    expect(instance.state.displayedWord).toEqual('a hebrew word');
+
+    // Flipped back over to display English word, now it's "revealed"
+    root.findByProps({ text: 'Reveal' }).props.onClick();
+
+    expect(instance.state.isRevealed).not.toBeTruthy();
+    expect(instance.state.displayedWord).toEqual('an english word');
   });
 });
