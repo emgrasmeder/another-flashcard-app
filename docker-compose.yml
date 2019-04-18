@@ -1,0 +1,26 @@
+version: '3'
+services:
+  another-flashcard-frontend:
+    image: another-flashcard-frontend
+    tty: true
+    build:
+      context: ./reagent-frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "9000:9000"
+  another-flashcard-app:
+    image: another-flashcard-app
+    tty: true
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+another-flashcard-app:
+  image: another-flashcard-database
+  tty: true
+  build:
+    context: ./
+    dockerfile: Dockerfile.neo4j
+  ports:
+    - "7474:7474"
