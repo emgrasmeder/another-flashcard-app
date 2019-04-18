@@ -10,6 +10,7 @@ class App extends Component {
     this.getCard = this.getCard.bind(this);
     this.giveFeedback = this.giveFeedback.bind(this);
     this.updateDisplayedCard = this.updateDisplayedCard.bind(this);
+    this.showMeThisAgain = this.showMeThisAgain.bind(this);
     this.toggleDefaultDisplayedLanguage = this.toggleDefaultDisplayedLanguage.bind(
       this
     );
@@ -49,6 +50,20 @@ class App extends Component {
     });
   }
 
+  showMeThisAgain(timeframe = 'never'){
+    return fetch('http://localhost:8000/feedback/frequency', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        timeframe: timeframe,
+        wordId: this.state.wordId,
+      })
+    });
+
+  }
+
   giveFeedback(isKnown) {
     return fetch('http://localhost:8000/feedback', {
       method: 'POST',
@@ -59,7 +74,7 @@ class App extends Component {
         timestamp: Math.floor(new Date() / 1000),
         wordId: this.state.wordId,
         isKnown: isKnown,
-        displayedLanguage: this.state.displayedLanguage
+        displayedLanguage: this.state.defaultDisplayedLanguage
       })
     }).then(this.updateDisplayedCard);
   }
@@ -151,6 +166,12 @@ class App extends Component {
         </div>
         <div>
           <Search onClick={this.search} />
+        </div>
+        <div>
+          <Button
+            text="Don't show me this card again"
+            onClick={() => this.showMeThisAgain('never')}
+          />
         </div>
       </div>
     );

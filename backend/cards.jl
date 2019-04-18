@@ -24,7 +24,7 @@ function process_feedback(feedback)
 end
 
 filepath = get(ENV, "HEBREW_WORD_LIST_PATH", "./resources")
-filename = get(ENV, "HEBREW_WORD_LIST_FILE", "basic-words1.csv")
+filename = get(ENV, "HEBREW_WORD_LIST_FILE", "basic-words2.csv")
 function load(filename = "$(filepath)/$(filename)")
   println("loading cards from $(filepath)/$(filename)")
   return DataFrame(CSV.read(filename))

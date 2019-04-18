@@ -11,8 +11,24 @@ function feedback(req::HTTP.Request)
     try
         response = JSON.json(String(req.body))
         println("Writing response ", response, "to log.json")
-            open("log.json", "a") do file
+        open("log.json", "a") do file
             write(file, "$response\n" )
+        end
+    catch err
+        println("Logging an error! ", err)
+        return error_responder(req, "Expected JSON request body")
+    end
+    json_responder(req, "")
+end
+
+function frequencyFeedback(req::HTTP.Request)
+    try
+        response = JSON.parse(JSON.json(String(req.body)))
+        wordId = JSON.parse(response)["wordId"]
+        tomorrow = Dates.today() + Dates.Day(1)
+        println("Removing card '$wordId' from draw pile")
+        open("resources/preferences.csv", "a") do file
+          write(file, "$wordId,$tomorrow\n" )
         end
     catch err
         println("Logging an error! ", err)
@@ -46,6 +62,7 @@ end
 endpoints = [
     (card, "GET", "/card"),
     (feedback, "POST", "/feedback"),
+    (frequencyFeedback, "POST", "/feedback/frequency"),
     (search, "GET", "/search"),
     (req -> req.response, "OPTIONS", "*")
 ]
