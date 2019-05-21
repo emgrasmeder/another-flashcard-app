@@ -9,7 +9,7 @@ end
 
 function feedback(req::HTTP.Request)
     try
-        response = JSON.json(String(req.body))
+        response = String(req.body)
         println("Writing response ", response, "to log.json")
         open("log.json", "a") do file
             write(file, "$response\n" )
