@@ -66,7 +66,7 @@ endpoints = [
     (search, "GET", "/search"),
     (req -> req.response, "OPTIONS", "*")
 ]
-s = Joseki.server(endpoints)
+s = Joseki.router(endpoints)
 
 println("Ready to serve on 127.0.0.1:8000")
 HTTP.serve(s, "127.0.0.1", 8000; verbose=false)

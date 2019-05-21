@@ -1,4 +1,4 @@
-using CSV, DataFrames, Logging, Query
+using CSV, DataFrames, Logging
 
 function JSONstringify(d::Dict)
   # TODO: is casting as string necessary?
