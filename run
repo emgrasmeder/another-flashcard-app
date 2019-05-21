@@ -51,7 +51,7 @@ start_frontend() {
 
 start_backend() {
   echo "Starting backend for development"
-  julia backend/handler.jl
+  julia backend/src/handler.jl
 }
 
 start_database() {
@@ -82,7 +82,7 @@ usage() {
 CMD=${1:-}
 shift || true
 case ${CMD} in
-  start) start_everything ;; 
+  start) start_everything ;;
   frontend) start_frontend ;;
   backend) start_backend ;;
   database) start_database ;;
