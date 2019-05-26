@@ -10,8 +10,8 @@ end
 function feedback(req::HTTP.Request)
     try
         response = String(req.body)
-        println("Writing response ", response, "to log.json")
-        open("log.json", "a") do file
+        println("Writing response ", response, "to log.ndjson")
+        open("log.ndjson", "a") do file
             write(file, "$response\n" )
         end
     catch err
