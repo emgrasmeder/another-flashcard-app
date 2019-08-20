@@ -1,0 +1,11 @@
+{:paths   ["src/another-flashcard-app"]
+ :deps    {org.clojure/clojure {:mvn/version "1.10.1"}}
+ :aliases {:test {:extra-paths ["test/another-flashcard-app"]
+                  :extra-deps  {lambdaisland/kaocha {:mvn/version "0.0-529"}}
+                  :main-opts   ["-m" "kaocha.runner"]}}}
+
+;to be continued https://cljdoc.org/d/lambdaisland/kaocha/0.0-529/doc/2-installing
+; https://tomekw.com/clojure-deps-edn-a-basic-guide/
+;http://www.rkn.io/2014/09/13/clojure-docker/
+;https://seespotcode.net/2016/08/03/naming-routes-in-pedestal/
+;http://pedestal.io/samples/index
