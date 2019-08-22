@@ -3,3 +3,4 @@
 frontend/out/
 log.json
 node_modules/
+.idea/
