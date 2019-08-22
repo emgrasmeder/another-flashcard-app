@@ -19,8 +19,8 @@
               ;;
               ;; "http://localhost:8080"
               ;;
-              ;;::http/allowed-origins ["scheme://host:port"]
-
+              ;::http/allowed-origins ["https://localhost:8000"]
+              ;
               ;; Tune the Secure Headers
               ;; and specifically the Content Security Policy appropriate to your service/application
               ;; For more information, see: https://content-security-policy.com/

@@ -11,4 +11,3 @@
 (deftest card-test
   (is (= (keys (test-utils/response-body (response-for service :get "/card")))
          [:id :english :hebrew])))
-

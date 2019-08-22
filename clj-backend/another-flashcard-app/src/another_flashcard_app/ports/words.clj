@@ -5,18 +5,27 @@
 
 (defn csv->maps [csv-data]
   (map zipmap
-       (->> (first csv-data) ;; First row is the header
-            (map keyword) ;; Drop if you want string keys instead
+       (->> (first csv-data)                                ;; First row is the header
+            (map keyword)                                   ;; Drop if you want string keys instead
             repeat)
        (rest csv-data)))
 
-(defn fetch []
-  (-> "words.csv"
+
+
+(defn fetch-from
+  "Returns a clojure map from csv file"
+  [filename]
+  (-> filename
       io/resource
       io/reader
       csv/read-csv
-      csv->maps
-      rand-nth
-      cheshire/generate-string))
+      csv->maps))
 
-
+;(defn search [pattern]
+;  (-> "words.csv"
+;      io/resource
+;      io/reader
+;      csv/read-csv
+;      csv->maps
+;
+;      cheshire/generate-string))

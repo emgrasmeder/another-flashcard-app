@@ -2,7 +2,7 @@
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+            :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [io.pedestal/pedestal.service "0.5.7"]
 
@@ -24,6 +24,7 @@
   ;:java-agents [[org.mortbay.jetty.alpn/jetty-alpn-agent "2.0.5"]]
   :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "another-flashcard-app.server/run-dev"]}
                    :dependencies [[io.pedestal/pedestal.service-tools "0.5.7"]]}
-             :test {:dependencies [[mock-clj "0.2.1"]]}
+             :test {:resource-paths ["test/resources"]
+                    :dependencies [[mock-clj "0.2.1"]]}
              :uberjar {:aot [another-flashcard-app.server]}}
   :main ^{:skip-aot true} another-flashcard-app.server)
