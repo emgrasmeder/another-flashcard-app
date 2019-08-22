@@ -38,7 +38,6 @@ class App extends Component {
 
   updateDisplayedCard() {
     this.getCard().then(card => {
-      card = JSON.parse(card.result);
       this.setState(
         {
           english: card.english,
