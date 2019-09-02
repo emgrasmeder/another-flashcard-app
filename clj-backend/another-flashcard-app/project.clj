@@ -23,7 +23,8 @@
   ;; If you use HTTP/2 or ALPN, use the java-agent to pull in the correct alpn-boot dependency
   ;:java-agents [[org.mortbay.jetty.alpn/jetty-alpn-agent "2.0.5"]]
   :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "another-flashcard-app.server/run-dev"]}
-                   :dependencies [[io.pedestal/pedestal.service-tools "0.5.7"]]}
+                   :dependencies [[io.pedestal/pedestal.service-tools "0.5.7"]
+                                  [mock-clj "0.2.1"]]}
              :test {:resource-paths ["test/resources"]
                     :dependencies [[mock-clj "0.2.1"]]}
              :uberjar {:aot [another-flashcard-app.server]}}

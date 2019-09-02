@@ -1,7 +1,6 @@
 (ns another-flashcard-app.ports.words
   (:require [clojure.data.csv :as csv]
-            [clojure.java.io :as io]
-            [cheshire.core :as cheshire]))
+            [clojure.java.io :as io]))
 
 (defn csv->maps [csv-data]
   (map zipmap
@@ -20,12 +19,3 @@
       io/reader
       csv/read-csv
       csv->maps))
-
-;(defn search [pattern]
-;  (-> "words.csv"
-;      io/resource
-;      io/reader
-;      csv/read-csv
-;      csv->maps
-;
-;      cheshire/generate-string))

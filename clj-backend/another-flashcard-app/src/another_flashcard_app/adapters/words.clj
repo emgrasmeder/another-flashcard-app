@@ -1,11 +1,15 @@
 (ns another-flashcard-app.adapters.words
-  (:require [cheshire.core :as cheshire]
-            [another-flashcard-app.ports.words :as words]
-            [another-flashcard-app.ports.words :as ports.words]))
+  (:require [another-flashcard-app.ports.words :as ports.words]
+            [another-flashcard-app.core :as core]))
 
 
-(defn rand-word
-  [filename]
-  (-> (ports.words/fetch-from filename)
-      rand-nth
-      cheshire/generate-string))
+
+(defn search
+  [query]
+  (println "searching for" query)
+  (-> (ports.words/fetch-from "words.csv")
+      (core/search query)))
+
+(defn rand-word []
+  (-> (ports.words/fetch-from "words.csv")
+      rand-nth))

@@ -134,10 +134,7 @@ class App extends Component {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.json())
-      .then(results => {
-        JSON.parse(results.result);
-      });
+      .then(response => response.json());
   }
 
   render() {

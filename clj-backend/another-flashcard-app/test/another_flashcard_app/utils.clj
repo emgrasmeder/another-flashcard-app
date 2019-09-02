@@ -3,4 +3,6 @@
             [cheshire.core :as cheshire]))
 
 (defn response-body [res]
-  (cheshire/parse-string (:body res) true))
+  (try (cheshire/parse-string (:body res) true)
+       (catch Exception e
+         res)))

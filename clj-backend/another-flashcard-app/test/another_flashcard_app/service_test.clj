@@ -11,3 +11,9 @@
 (deftest card-test
   (is (= (keys (test-utils/response-body (response-for service :get "/card")))
          [:id :english :hebrew])))
+
+(deftest search-test
+  (is (= (test-utils/response-body (response-for service :get "/search?q=to run"))
+         [{:english "to run"
+           :hebrew  "לָרוּץ"
+           :id      "1A81A7DE-027A-40B9-854D-F313E6C0F8FC"}])))

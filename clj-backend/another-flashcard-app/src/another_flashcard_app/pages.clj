@@ -1,18 +1,24 @@
 (ns another-flashcard-app.pages
   (:require [io.pedestal.http :as http]
-            ;[io.pedestal.http.route :as route]
+    ;[io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [ring.util.response :as ring-resp]
-            [another-flashcard-app.adapters.words :as adapters.words]))
+            [another-flashcard-app.adapters.words :as words]
+            [cheshire.core :as cheshire]))
 
 (defn home [request]
   (ring-resp/response "nothing to see here"))
 
 (defn card [request]
-  (ring-resp/response (adapters.words/rand-word "words.csv")))
+  (ring-resp/response (cheshire/generate-string (words/rand-word))))
 
-;(defn search [request]
-;  (ring-resp/response (words/search)))
+(defn search [request]
+  (-> request
+      :query-params
+      :q
+      words/search
+      cheshire/generate-string
+      ring-resp/response))
 
 (defn feedback [request]
   (println (format "I should log %s to log.ndjson" (:body request)))
@@ -35,7 +41,7 @@
 ;; Tabular routes
 (def routes #{["/" :get (conj common-interceptors `home)]
               ["/card" :get (conj common-interceptors `card)]
-              ;["/search" :get (conj common-interceptors `search)]
+              ["/search" :get (conj common-interceptors `search)]
               ["/feedback" :post (conj common-interceptors `feedback)]
               ;["/feedback/frequency" :post (conj common-interceptors `frequency)]
               ;["/search" :get (conj common-interceptors `search)]

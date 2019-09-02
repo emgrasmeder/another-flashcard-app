@@ -1,12 +1,15 @@
 (ns another-flashcard-app.adapters.words-test
   (:require [clojure.test :refer :all]
             [another-flashcard-app.adapters.words :as words]
-            [cheshire.core :as cheshire]))
+            [cheshire.core :as cheshire]
+            [mock-clj.core :as mock-clj]))
 
 (deftest rand-word-test
   (testing "should return a word from a list"
-    (mock-clj/with-mock
-      [rand-nth first]
-      (let [word (words/rand-word "test-words.csv")]
-        (is (or (= word (cheshire/generate-string {:map2key1 "val"}))
-                (= word (cheshire/generate-string {:map1key1 "val"}))))))))
+    (let [word (words/rand-word)]
+      (is (= (keys word) [:id :english :hebrew])))))
+
+(deftest search-test
+  (testing "should return words from the list which match query"
+    (let [word (words/rand-word)]
+      (is (= (keys word) [:id :english :hebrew])))))

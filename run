@@ -51,7 +51,10 @@ start_frontend() {
 
 start_backend() {
   echo "Starting backend for development"
-  julia backend/src/handler.jl
+  (
+  cd clj-backend/another-flashcard-app
+  lein run
+  )
 }
 
 start_database() {
