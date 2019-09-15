@@ -9,8 +9,6 @@
             repeat)
        (rest csv-data)))
 
-
-
 (defn fetch-from
   "Returns a clojure map from csv file"
   [filename]

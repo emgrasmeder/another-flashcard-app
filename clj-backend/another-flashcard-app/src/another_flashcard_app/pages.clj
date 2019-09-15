@@ -21,8 +21,10 @@
       ring-resp/response))
 
 (defn feedback [request]
-  (println (format "I should log %s to log.ndjson" (:body request)))
-  )
+  (-> request
+      :json-params
+      words/write-feedback)
+  (ring-resp/created "/feedback"))
 
 ;(defn frequency [request]
 ;  (let [response (:body request)
