@@ -6,8 +6,7 @@
             [another-flashcard-app.utils :as test-utils]
             [cheshire.core :as cheshire]
             [mock-clj.core :as mock-clj]
-            [another-flashcard-app.adapters.words :as words]
-            [ring.util.response :as ring-resp]))
+            [another-flashcard-app.adapters.words :as words]))
 
 (def service
   (::bootstrap/service-fn (bootstrap/create-servlet service/service)))

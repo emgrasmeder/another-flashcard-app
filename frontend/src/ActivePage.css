@@ -1,0 +1,21 @@
+.ActivePage{
+    background-color: #292B35;
+    color: #E9EDF8;
+
+    position: fixed;
+    z-index: -1;
+
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 66%;
+
+    bottom: 0;
+    top: 0;
+    /*33% also in the SideNav*/
+    left: 33%;
+    right: 0;
+
+    font-size: 24px;
+    font-weight: 400;
+}
