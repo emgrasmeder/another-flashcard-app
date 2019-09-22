@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './SideNav.css';
 
-class SideNav extends Component {
-  render() {
-    return (
-      <div className={'SideNav'}/>
-    );
-  }
-}
+const SideNav = (props) => (
+    <div className={'SideNav'}>
+      {props.children}
+    </div>
+);
 
 export default SideNav;

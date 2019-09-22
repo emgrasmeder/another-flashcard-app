@@ -15,12 +15,23 @@ class Search extends Component {
     this.setState({ value: event.target.value });
   }
 
+  search(query) {
+    return fetch(`http://localhost:8000/search?q=${query}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+        .then(response => response.json());
+  }
+
+
   render() {
     return (
       <div className="Search">
         <Button
           text="Search"
-          onClick={() => this.props.onClick(this.state.value)}
+          onClick={() => this.search(this.state.value)}
         />
         <input
           type="text"
