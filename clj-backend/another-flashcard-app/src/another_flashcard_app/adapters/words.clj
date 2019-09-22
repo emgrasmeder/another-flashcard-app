@@ -13,7 +13,7 @@
 (defn search
   [query]
   (-> (ports.words/fetch-from "words.csv")
-      (core/search query)))
+      (core/search-fuzzy query)))
 
 (defn rand-word []
   (-> (ports.words/fetch-from "words.csv")

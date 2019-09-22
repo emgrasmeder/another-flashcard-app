@@ -17,7 +17,8 @@
                  [org.slf4j/jcl-over-slf4j "1.7.26"]
                  [org.slf4j/log4j-over-slf4j "1.7.26"]
                  [org.clojure/data.csv "0.1.4"]
-                 [cheshire "5.9.0"]]
+                 [cheshire "5.9.0"]
+                 [clj-fuzzy "0.4.1"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
   ;; If you use HTTP/2 or ALPN, use the java-agent to pull in the correct alpn-boot dependency
