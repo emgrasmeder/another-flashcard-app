@@ -19,7 +19,7 @@
               ;;
               ;; "http://localhost:8080"
               ;;
-              ::http/allowed-origins ["http://localhost:3000"]
+              ::http/allowed-origins ["http://localhost:9021"]
               ;
               ;; Tune the Secure Headers
               ;; and specifically the Content Security Policy appropriate to your service/application

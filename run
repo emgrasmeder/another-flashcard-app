@@ -1,97 +1,43 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-build_docker_frontend() {
-  echo "Building frontend docker image"
-  docker build --tag another-flashcard-frontend -f ./Dockerfile.frontend .
+set -e
+
+__frontend() {
+    (
+        cd frontend
+        yarn
+        yarn start
+    )
 }
 
 
-build_docker_backend() {
-  echo "Building backend docker image"
-  docker build --tag another-flashcard-backend -f Dockerfile.backend .
+__backend() {
+    (
+        cd clj-backend/another-flashcard-app
+        lein run
+    )
 }
 
 
-build_docker_database() {
-  echo "Building database docker image"
-  docker build --tag another-flashcard-database -f Dockerfile.neo4j .
-}
+validate_args() {
+  # looks through current file and finds functions whose names start with '__'
+  acceptable_args="$(declare -F | sed -n "s/declare -f __//p" | tr '\n' ' ')"
 
-
-run_docker_backend(){
-  echo "Running backend docker image"
-  docker run --rm -it -p 8000:8000 another-flashcard-backend
-}
-
-
-build_and_run_backend(){
-  build_docker_backend
-  run_docker_backend
-}
-
-
-run_docker_frontend(){
-  echo "Running frontend docker image"
-  docker run --rm -it -p 9000:9000 another-flashcard-frontend
-}
-
-
-build_and_run_frontend(){
-  build_docker_frontend
-  run_docker_frontend
-}
-
-
-start_frontend() {
-  cd frontend
-  yarn
-  yarn start
-}
-
-
-start_backend() {
-  echo "Starting backend for development"
-  (
-  cd clj-backend/another-flashcard-app
-  lein run
-  )
-}
-
-start_database() {
-  echo "Starting database for development"
-  if [ ! -d "$DIRECTORY" ]; then
-    wget dist.neo4j.org/neo4j-community-3.3.5-unix.tar.gz
-    tar -xzf neo4j-community-3.3.5-unix.tar.gz
-    sed -i -e 's/#dbms.security.auth_enabled=false/dbms.security.auth_enabled=false/g' neo4j-community-3.3.5/conf/neo4j.conf
-    sed -i -e 's/dbms.security.auth_enabled=true/dbms.security.auth_enabled=false/g' neo4j-community-3.3.5/conf/neo4j.conf
-  fi
-  neo4j-community-3.3.5/bin/neo4j start
-}
-
-
-start_everything(){
-  build_docker_frontend
-  build_docker_backend
-  build_docker_database
-  docker-compose up
-}
-
-
-usage() {
-    echo "Usage: $0 start | frontend | frontend_container | backend | build | docker | frontend_container"
+  if [[ -z $1 ]]; then # if no argument was provided
+    echo "Must provide an argument"
+    printf "Available commands:\n$(declare -F | sed -n "s/declare -f __/ - /p")"
     exit 1
+  fi
+  if [[ ! " $acceptable_args " =~ .*\ $1\ .* ]]; then # argument not in list of functions beginning with '__'
+      echo "Invalid argument: $1"
+      printf "Available commands:\n$(declare -F | sed -n "s/declare -f __/ - /p")"
+      exit 1
+  fi
 }
 
 CMD=${1:-}
 shift || true
-case ${CMD} in
-  start) start_everything ;;
-  frontend) start_frontend ;;
-  backend) start_backend ;;
-  database) start_database ;;
-  backend_container) build_and_run_backend ;;
-  frontend_container) build_and_run_frontend ;;
-  build_backend) build_docker_backend ;;
-  backend_no_build) run_docker_backend ;;
-  *) usage ;;
-esac
+if validate_args ${CMD}; then
+  __${CMD} $@
+  exit 0
+fi

@@ -26,6 +26,12 @@
       words/write-feedback)
   (ring-resp/created "/feedback"))
 
+(defn insert [request]
+  (-> request
+      :json-params
+      words/insert-word)
+  (ring-resp/created "/insert"))
+
 ;(defn frequency [request]
 ;  (let [response (:body request)
 ;        word-id (:wordId response)
@@ -45,6 +51,7 @@
               ["/card" :get (conj common-interceptors `card)]
               ["/search" :get (conj common-interceptors `search)]
               ["/feedback" :post (conj common-interceptors `feedback)]
+              ["/insert" :put (conj common-interceptors `insert)]
               ;["/feedback/frequency" :post (conj common-interceptors `frequency)]
               ;["/search" :get (conj common-interceptors `search)]
               })

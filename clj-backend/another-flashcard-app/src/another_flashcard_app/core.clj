@@ -17,3 +17,6 @@
 
 (defn search-fuzzy [entries query]
   (filter (fn [m] (match? query (vals m))) entries))
+
+(defn map->csv [m headers]
+  (map #(get m %) headers))
